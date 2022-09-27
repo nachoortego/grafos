@@ -1,5 +1,6 @@
 import sys
 
+#agrega un vértice a la componente correspondiente
 def comp_vert(v, componentes, E):
 
     componentes.append([v])
@@ -12,6 +13,7 @@ def comp_vert(v, componentes, E):
                 componente.append(e[0])
     return componentes
 
+#verifica si un grafo tiene circuito euleriano (ce)
 def verif_tiene_ce(grafo):
 
     #verifica que el grafo sea conexo
@@ -38,8 +40,28 @@ def verif_tiene_ce(grafo):
     #si verifica las cuestiones anteriores tiene un ce, por lo que retorna True
     return True
 
+#verifica si una arista es arista puente
+def arista_puente(arista,gradDict):
+    try:
+        ret = (gradDict[arista[0]] <= 1) or (gradDict[arista[1]] <= 1)
+        return ret
+    except Exception as e:
+        print(f"Error: {e}")
+
+#devuelve un diccionario con el grado de los vértices
+def gradosDict(V,E):
+
+    gradDict = {}
+
+    for vertice in V:
+        gradDict[vertice] = 0
+        for arista in E:
+            gradDict[vertice] += 1 if vertice in arista else 0
+
+    return gradDict
+
 if __name__ == '__main__':
 
     grafoEuleriano = [['a', 'b', 'c'], [('a', 'b'), ('b', 'c'), ('c', 'a')]]
     grafoNoEuleriano = [['a', 'b', 'c','d'], [('a', 'b'), ('c', 'a'), ('b', 'c'),('d', 'a')]]
-    grafo_euler = [['a', 'b', 'c', 'd', 'e', 'f'], [('a', 'b'), ('a', 'c'), ('b', 'c'), ('b', 'd'), ('b', 'e'), ('c', 'e'), ('c', 'f'), ('d', 'e'), ('e', 'f')]
+    grafo_euler = [['a', 'b', 'c', 'd', 'e', 'f'], [('a', 'b'), ('a', 'c'), ('b', 'c'), ('b', 'd'), ('b', 'e'), ('c', 'e'), ('c', 'f'), ('d', 'e'), ('e', 'f')]]
