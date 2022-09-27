@@ -30,7 +30,9 @@ def verif_tiene_ce(grafo):
     #verifica que el grado de todos los vertices sea par
 
     for vertice in grafo[0]:
+      
       suma = 0
+
       for arista in grafo[1]:
         suma = suma + arista.count(vertice)
 
@@ -59,6 +61,58 @@ def gradosDict(V,E):
             gradDict[vertice] += 1 if vertice in arista else 0
 
     return gradDict
+
+def ce(grafo):
+
+    if(verif_tiene_ce(grafo) == False):
+        return None
+
+    vertices = grafo[0]
+    aristas = grafo[1]
+
+    verticeInicio = vertices[0]
+    circuitoEuler = []
+
+    for arista in aristas:
+        
+        if arista[0] == verticeInicio or arista[1] == verticeInicio:
+
+            if arista[0] == verticeInicio:
+                verticeEntra = arista[0]
+                verticeSale = arista[1]
+            else:
+                verticeEntra = arista[1]
+                verticeSale = arista[0]
+
+            if not arista_puente(arista, gradosDict(vertices,aristas)):
+
+                circuitoEuler.append((verticeEntra,verticeSale))
+                aristas.remove(arista)
+                verticeEntra = verticeSale
+    
+    while aristas != []:
+
+        for arista in aristas:
+
+            if arista[0] == verticeInicio or arista[1] == verticeInicio:
+
+                if arista[0] == verticeInicio:
+
+                    verticeEntra = arista[0]
+                    verticeSale = arista[1]
+                else:
+                    
+                    verticeEntra = arista[1]
+                    verticeSale = arista[0]
+
+                circuitoEuler.append((verticeEntra,verticeSale))
+                aristas.remove(arista)
+                verticeInicio =verticeSale
+
+
+    return circuitoEuler
+     
+    pass
 
 if __name__ == '__main__':
 
